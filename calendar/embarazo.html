@@ -28,6 +28,11 @@
             column-gap: 20px;
             margin: 20px 0;
         }
+        .profile-selector select {
+            padding: 2px 20px;
+            border: 1px #2494fd solid;
+            border-radius: 3px;
+        }
         #calendar {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
@@ -102,8 +107,7 @@
 <body>
     <h1>Calendario de embarazo de <span id="profileName"></span></h1>
     <div class="profile-selector">
-        <label><input type="radio" name="profile" value="candela" checked="checked"> Candela</label>
-        <label><input type="radio" name="profile" value="laura"> Laura</label>
+        <select name="profile" id="select-profile"></select>
     </div>
     <div class="buttons">
         <button id="prev">&larr;</button>
@@ -118,6 +122,7 @@
     const monthName = document.getElementById('month');
     const calendar = document.getElementById('calendar');
     const profileName = document.getElementById('profileName');
+    const profileSelector = document.getElementById('select-profile');
     
     const weekDayNames = ['Dom','Lun','Mar','Mie','Jue','Vie','Sab'].slice(0, 7);
     const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
@@ -127,17 +132,37 @@
     const currentMonth = new Date();
     const today = new Date();
 
-    const loadProfile = (profile = 'candela') => {
-        switch (profile) {
-            case 'candela':
-                profileName.innerText = 'Candela';
-                pregnancyStart = new Date('Thu Jun 09 2022 00:00:00 GMT+0100');
-                break;
-            case 'laura':
-                profileName.innerText = 'Laura';
-                pregnancyStart = new Date('Thu Jul 24 2022 00:00:00 GMT+0100');
-                break;
+    const data = [
+        {
+            id: "candela",
+            name: "Candela",
+            pregnancyStart: "Thu Jun 09 2022 00:00:00 GMT+0100"
+        },
+        {
+            id: "laura",
+            name: "Laura",
+            pregnancyStart: "Thu Jul 24 2022 00:00:00 GMT+0100"
+        },
+        {
+            id: "reyes",
+            name: "Reyes",
+            pregnancyStart: "Fri Sep 9 2022 00:00:00 GMT+0100"
         }
+    ];
+
+    const loadProfileSelector = () => {
+        data.forEach(el => {
+            const option = document.createElement('option');
+            option.value = el.id;
+            option.text = el.name;
+            profileSelector.appendChild(option);
+        });
+    };
+
+    const loadProfile = (id = 'candela') => {
+        profile = data.find(el => el.id == id);
+        profileName.innerText = profile.name;
+        pregnancyStart = new Date(profile.pregnancyStart);
         renderMonth(currentMonth.getFullYear(), currentMonth.getMonth());
     }
     
@@ -213,11 +238,14 @@
     }
 
     //Events
-    document.addEventListener('DOMContentLoaded', loadProfile());
     prevButton.addEventListener('click', prevMonth);
     nextButton.addEventListener('click', nextMonth);
-    document.querySelectorAll('.profile-selector input').forEach((el) => {
-        el.addEventListener('click',() => loadProfile(el.value));
+    profileSelector.addEventListener("change", () => {
+        loadProfile(profileSelector.value);
+    });
+    document.addEventListener('DOMContentLoaded', () => { 
+        loadProfileSelector();
+        loadProfile();
     });
 
 </script>
