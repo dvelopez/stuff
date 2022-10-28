@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control embarazo Candela</title>
+    <style>
+        html {
+            font-size: 16px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        body {
+            padding: 10px 0 0;
+            color: #888;
+        }
+        h1 {
+            font-size: 1rem;
+            text-align: center;
+            font-weight: normal;
+            padding: 10px 0;
+            border-top: 1px #eee solid;
+            border-bottom: 1px #eee solid;
+        }
+        .profile-selector {
+            display: flex;
+            justify-content: center;
+            column-gap: 20px;
+            margin: 20px 0;
+        }
+        #calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        button {
+            border-radius: 3px;
+            border: 0;
+            background: rgb(36, 148, 253);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-size: 1.3rem;
+        }
+        #month {
+            font-size: 1.4rem;
+            font-weight: bold;
+            width: 200px;
+            text-align: center;
+            color: #333;
+        }
+        
+        .day-name {
+            background: #d85064;
+            color: #fff;
+            text-align: center;
+            border-radius: 3px;
+            font-size: 0.8rem;
+        }
+        .day {
+            background: #eee;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            row-gap: 10px;
+            justify-content: center;
+            border-radius: 3px;
+            height: 80px;
+        }
+        .month-day {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #2494fd;
+            color: #fff;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .pregnant-week {
+            font-size: 0.7rem;
+            color: #1b558b;
+            line-height: 1rem;
+        }
+        .pregnant-week strong {
+            font-size: 0.8rem;
+            vertical-align: middle;
+        }
+        .today {
+            background: rgba(36,148,253,0.39);
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <h1>Calendario de embarazo de <span id="profileName"></span></h1>
+    <div class="profile-selector">
+        <label><input type="radio" name="profile" value="candela" checked="checked"> Candela</label>
+        <label><input type="radio" name="profile" value="laura"> Laura</label>
+    </div>
+    <div class="buttons">
+        <button id="prev">&larr;</button>
+        <span id="month"></span>
+        <button id="next">&rarr;</button>
+    </div>
+    <div id="calendar"></div>
+</body>
+<script>
+    const prevButton = document.getElementById('prev');
+    const nextButton = document.getElementById('next');
+    const monthName = document.getElementById('month');
+    const calendar = document.getElementById('calendar');
+    const profileName = document.getElementById('profileName');
+    
+    const weekDayNames = ['Dom','Lun','Mar','Mie','Jue','Vie','Sab'].slice(0, 7);
+    const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+       'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    const weekDayStart = 0; // Semana empieza en lunes
+
+    const currentMonth = new Date();
+    const today = new Date();
+
+    const loadProfile = (profile = 'candela') => {
+        switch (profile) {
+            case 'candela':
+                profileName.innerText = 'Candela';
+                pregnancyStart = new Date('Thu Jun 09 2022 00:00:00 GMT+0100');
+                break;
+            case 'laura':
+                profileName.innerText = 'Laura';
+                pregnancyStart = new Date('Thu Jul 24 2022 00:00:00 GMT+0100');
+                break;
+        }
+        renderMonth(currentMonth.getFullYear(), currentMonth.getMonth());
+    }
+    
+    const prevMonth = () => {
+        currentMonth.setMonth(currentMonth.getMonth() - 1);
+        renderMonth(currentMonth.getFullYear(), currentMonth.getMonth());
+    }
+    const nextMonth = () => {
+        currentMonth.setMonth(currentMonth.getMonth() + 1);
+        renderMonth(currentMonth.getFullYear(), currentMonth.getMonth());
+    }
+    const renderMonth = (year, month) => {
+
+        calDate = new Date();
+        calDate.setYear(year);
+        calDate.setMonth(month);
+        calDate.setDate(1);
+
+        // Reset calendario
+        calendar.innerHTML = "";
+        
+        // Escribir mes
+        monthName.innerText = monthNames[calDate.getMonth()] + ' ' + calDate.getFullYear();
+
+        // Escribir días semana
+        for (i=0; i<7; i++) {
+            const dayName = weekDayNames[i + weekDayStart < 7 ? i + weekDayStart : i - 7 + weekDayStart];
+            const calendarDay = document.createElement('div');
+            calendarDay.classList.add('day-name');
+            calendarDay.innerHTML = dayName;
+            calendar.appendChild(calendarDay);
+        }
+
+        // Offset Days (días vacíos)
+        for (i=0; i<7; i++) {
+            const weekDay = i + weekDayStart < 7 ? i + weekDayStart : i - 7 + weekDayStart;
+            if (weekDay == calDate.getDay()) {
+                break;
+            }
+            const calendarDay = document.createElement('div');
+            calendar.appendChild(calendarDay);
+        }
+
+        // Días calendario
+        while (calDate.getMonth() == month) {
+            const calendarDay = document.createElement('div');
+            calendarDay.classList.add('day');
+            const pregnancyWeek = Math.floor((calDate - pregnancyStart) / 24 / 60 / 60 / 7 / 1000);
+            const pregnancyRestDay = Math.floor((((calDate - pregnancyStart) / 24 / 60 / 60 / 7 / 1000) % 1) * 7);
+            let innerHTML = '<div class="month-day">' + calDate.getDate() + '</div>';
+            // Escribe la semana de embarazo
+            if (pregnancyWeek > -1 && pregnancyWeek <= 42) {
+                innerHTML += '<div class="pregnant-week">';
+                innerHTML += '<strong>' + pregnancyWeek + '</strong>';
+                // Escribe el día restante de la semana de embarazo
+                if (pregnancyRestDay > 0) {
+                    innerHTML += '+' + pregnancyRestDay;
+                }
+                innerHTML += '</div>';
+            }
+            calendarDay.innerHTML = innerHTML;            
+            calendar.appendChild(calendarDay);        
+            // Marca fecha de hoy
+            if (
+                calDate.getDate() === today.getDate() && 
+                calDate.getMonth() === today.getMonth() && 
+                calDate.getFullYear() === today.getFullYear()
+            ) {
+                calendarDay.classList.add('today');
+            }
+            calDate.setDate(calDate.getDate() + 1); // Suma un día
+        }
+    }
+
+    //Events
+    document.addEventListener('DOMContentLoaded', loadProfile());
+    prevButton.addEventListener('click', prevMonth);
+    nextButton.addEventListener('click', nextMonth);
+    document.querySelectorAll('.profile-selector input').forEach((el) => {
+        el.addEventListener('click',() => loadProfile(el.value));
+    });
+
+</script>
+</html>
