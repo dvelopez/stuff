@@ -185,10 +185,10 @@
         // Reset calendario
         calendar.innerHTML = "";
         
-        // Escribir mes
+        // Nombre del mes y año
         monthName.innerText = monthNames[calDate.getMonth()] + ' ' + calDate.getFullYear();
 
-        // Escribir días semana
+        // Días de la semana
         for (i=0; i<7; i++) {
             const dayName = weekDayNames[i + weekDayStart < 7 ? i + weekDayStart : i - 7 + weekDayStart];
             const calendarDay = document.createElement('div');
@@ -211,14 +211,14 @@
         while (calDate.getMonth() == month) {
             const calendarDay = document.createElement('div');
             calendarDay.classList.add('day');
+            let innerHTML = '<div class="month-day">' + calDate.getDate() + '</div>';
+            
+            // Semana y dia de embarazo
             const pregnancyWeek = Math.floor((calDate - pregnancyStart) / 24 / 60 / 60 / 7 / 1000);
             const pregnancyRestDay = Math.floor((((calDate - pregnancyStart) / 24 / 60 / 60 / 7 / 1000) % 1) * 7);
-            let innerHTML = '<div class="month-day">' + calDate.getDate() + '</div>';
-            // Escribe la semana de embarazo
             if (pregnancyWeek > -1 && pregnancyWeek <= 42) {
                 innerHTML += '<div class="pregnant-week">';
                 innerHTML += '<strong>' + pregnancyWeek + '</strong>';
-                // Escribe el día restante de la semana de embarazo
                 if (pregnancyRestDay > 0) {
                     innerHTML += '+' + pregnancyRestDay;
                 }
