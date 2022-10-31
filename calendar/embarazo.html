@@ -127,9 +127,10 @@
     const weekDayNames = ['Dom','Lun','Mar','Mie','Jue','Vie','Sab'].slice(0, 7);
     const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-    const weekDayStart = 0; // Semana empieza en lunes
+    const weekDayStart = 1; // Semana empieza en lunes
 
     const currentMonth = new Date();
+    currentMonth.setDate(1);
     const today = new Date();
 
     const data = [
@@ -177,9 +178,9 @@
     const renderMonth = (year, month) => {
 
         calDate = new Date();
-        calDate.setYear(year);
-        calDate.setMonth(month);
         calDate.setDate(1);
+        calDate.setMonth(month);
+        calDate.setYear(year);
 
         // Reset calendario
         calendar.innerHTML = "";
