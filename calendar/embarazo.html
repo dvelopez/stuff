@@ -9,18 +9,23 @@
         html {
             font-size: 16px;
             font-family: Arial, Helvetica, sans-serif;
+            background: url('https://picsum.photos/600/1200?blur=8') no-repeat;
+            background-size: cover;
+            height: 100%;
+            margin: 0;
+            padding: 0;
         }
         body {
-            padding: 10px 0 0;
-            color: #888;
+            color: #fff;
+            background-color: #ffffff55;
+            padding: 10px;
         }
         h1 {
             font-size: 1rem;
             text-align: center;
             font-weight: normal;
             padding: 10px 0;
-            border-top: 1px #eee solid;
-            border-bottom: 1px #eee solid;
+            background: #00000038;
         }
         .profile-selector {
             display: flex;
@@ -58,7 +63,7 @@
             font-weight: bold;
             width: 200px;
             text-align: center;
-            color: #333;
+            color: #00000088;
         }
         
         .day-name {
@@ -69,7 +74,7 @@
             font-size: 0.8rem;
         }
         .day {
-            background: #eee;
+            background: rgba(255,255,255,0.5);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -99,8 +104,10 @@
             vertical-align: middle;
         }
         .today {
-            background: rgba(36,148,253,0.39);
-            color: #fff;
+            background: rgb(36 253 233 / 69%);
+        }
+        .fulfill {
+            background: rgba(253, 195, 36, 0.753);
         }
     </style>
 </head>
@@ -135,17 +142,17 @@
 
     const data = [
         {
-            id: "candela",
+            id: "1",
             name: "Candela",
             pregnancyStart: "Thu Jun 09 2022 00:00:00 GMT+0100"
         },
         {
-            id: "laura",
+            id: "2",
             name: "Laura",
             pregnancyStart: "Thu Jul 24 2022 00:00:00 GMT+0100"
         },
         {
-            id: "reyes",
+            id: "3",
             name: "Reyes",
             pregnancyStart: "Fri Sep 9 2022 00:00:00 GMT+0100"
         }
@@ -160,7 +167,8 @@
         });
     };
 
-    const loadProfile = (id = 'candela') => {
+    const loadProfile = (id = null) => {
+        if (id === null) id = data[0].id;
         profile = data.find(el => el.id == id);
         profileName.innerText = profile.name;
         pregnancyStart = new Date(profile.pregnancyStart);
@@ -234,7 +242,14 @@
             ) {
                 calendarDay.classList.add('today');
             }
-            calDate.setDate(calDate.getDate() + 1); // Suma un día
+            
+            // Marcar fecha de cumplir embarazo (40 sem)
+            if (pregnancyWeek == 40 && pregnancyRestDay == 0) {
+                calendarDay.classList.add('fulfill');
+            }
+
+            // Suma un día
+            calDate.setDate(calDate.getDate() + 1);
         }
     }
 
