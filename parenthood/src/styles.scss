@@ -1,5 +1,134 @@
 @import 'minireset.css/minireset';
 
+html {
+    font-size: 16px;
+}
+
 body {
-    background: #ddd;
+    padding: 1rem;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.init-form {
+    padding: 1rem;
+    border: 2px #e5e5e5 solid;
+    border-radius: 1rem;
+    background-color: #fff;
+    box-shadow: 0 0 10px #ddd;
+}
+
+// Resumen de las fechas de baja
+#planning-resume {
+    ul {
+        padding: 10px;
+        margin-left: 20px;
+    }
+    li {
+        list-style-type: disc;
+        padding: 5px;
+        strong {
+            font-size: 1.2rem;
+        }
+    }
+}
+
+.calendar-view {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.calendar-month {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+.buttons {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+button {
+    border-radius: 3px;
+    border: 0;
+    background: rgb(36, 148, 253);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 1rem;
+}
+input {
+    border-radius: 3px;
+    border: 1px #ddd solid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #000;
+    font-size: 1rem;
+}
+.input-group {
+    display: flex;
+    button, input {
+        border-radius: 0;
+    }
+    *:first-child {
+        border-top-left-radius: 3px;
+        border-bottom-left-radius: 3px;
+    }
+    *:last-child {
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+    }
+}
+.month-name {
+    font-size: 1.4rem;
+    font-weight: bold;
+    width: 200px;
+    text-align: center;
+    color: #00000088;
+}
+
+.day-name {
+    background: #d85064;
+    color: #fff;
+    text-align: center;
+    border-radius: 3px;
+    font-size: 0.8rem;
+}
+.day {
+    background: rgba(255,255,255,0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 10px;
+    justify-content: center;
+    border-radius: 3px;
+    height: 80px;
+}
+.month-day {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #2494fd;
+    color: #fff;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.pregnant-week {
+    font-size: 0.7rem;
+    color: #1b558b;
+    line-height: 1rem;
+}
+.pregnant-week strong {
+    font-size: 0.8rem;
+    vertical-align: middle;
+}
+.today {
+    background: rgba(36, 253, 233, 0.69);
+}
+.fulfill {
+    background: rgba(253, 195, 36, 0.753);
 }
