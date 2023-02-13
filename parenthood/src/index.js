@@ -1,5 +1,6 @@
 import moment from "moment";
 import Calendar from "./calendar";
+import { planningData } from "./planningData";
 
 import './styles.scss';
 
@@ -15,10 +16,6 @@ let options = {
     weekDayStart: 1,
     defaultFormat: "MM/YYYY"
 }
-const calWrapper = document.getElementsByClassName('calendar-view')[0];
-const c = new Calendar('2023-02-01',calWrapper, options);
-
-c.render();
 
 // Fecha nacimiento por defecto
 let bornDate = moment('16/03/2023', moment.defaultFormat);
@@ -33,81 +30,6 @@ const setBornDate = (date = bornDate.format()) => {
     if (pDate.isValid()) bornDate = pDate;
     bornDateInput.value = bornDate.format();
 }
-
-// Datos del plan de baja
-const planningData = [
-    {
-        id: 1,
-        title: "Semanas obligatorias Diego y Candela",
-        subject: ["Candela", "Diego"],
-        time: "6 weeks",
-        color: '#fa0',
-    },
-    
-    {
-        id: 2,
-        title: "Permiso maternidad Candela",
-        subject: ["Candela"],
-        time: "10 weeks",
-        color: '#dc0',
-    },
-    
-    {
-        id: 3,
-        title: "Periodo lactancia Candela",
-        subject: ["Candela"],
-        time: "2 weeks",
-        color: '#3d2',
-    },
-    
-    {
-        id: 4,
-        title: "Periodo paternidad Diego",
-        subject: ["Diego"],
-        time: "10 weeks",
-        color: '#11b',
-    },
-    
-    {
-        id: 5,
-        title: "Permiso lactancia Diego",
-        subject: ["Diego"],
-        time: "2 weeks",
-        color: '#27f',
-    },
-    
-    {
-        id: 6,
-        title: "Periodo vacaciones Candela",
-        subject: ["Candela"],
-        time: "2 weeks",
-        color: '#03f',
-    },
-
-    {
-        id: 7,
-        title: "Periodo vacaciones Diego",
-        subject: ["Diego"],
-        time: "2 weeks",
-        color: '#03f',
-    },
-
-    {
-        id: 8,
-        title: "Periodo vacaciones Candela",
-        subject: ["Candela"],
-        time: "2 weeks",
-        color: '#03f',
-    },
-
-    {
-        id: 9,
-        title: "Periodo vacaciones Diego",
-        subject: ["Diego"],
-        time: "2 weeks",
-        color: '#03f',
-    },
-];
 
 let planningDates = null;
 
@@ -146,6 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setBornDate(bornDateInput.value);
         planningDates = composeDatesFromPlanning(bornDate, planningData);
         renderPlanningDates(planningDates);
+        renderCalendar(planningDates);
     });
     
 });
@@ -162,69 +85,27 @@ const renderPlanningDates = (pPlanningDates) => {
     planningResume.append(planningList);
 }
 
-const renderMonth = (year, month) => {
-
-    calDate = moment().year(year).month(month).date(1);
-
-    // Reset calendario
-    calendar.innerHTML = "";
+const renderCalendar = (pPlanningDates = {}) => {
+    const calWrapper = document.getElementsByClassName('calendar-view')[0];
+    calWrapper.innerHTML = '';
+    // Get first, last date and set currentDate operator
+    const firstDate = moment(pPlanningDates[0].dateFrom,'DD/MM/YYYY');
+    const lastDate = moment(pPlanningDates[pPlanningDates.length - 1].dateTo,'DD/MM/YYYY');
+    const currentDate = firstDate.startOf('month');
     
-    // Nombre del mes y año
-    monthName.innerText = monthNames[calDate.getMonth()] + ' ' + calDate.getFullYear();
+    // Calculate months to show
+    const monthsToRender = Math.ceil(lastDate.diff(firstDate, 'months',true));
 
-    // Días de la semana
-    for (i=0; i<7; i++) {
-        const dayName = weekDayNames[i + weekDayStart < 7 ? i + weekDayStart : i - 7 + weekDayStart];
-        const calendarDay = document.createElement('div');
-        calendarDay.classList.add('day-name');
-        calendarDay.innerHTML = dayName;
-        calendar.appendChild(calendarDay);
-    }
-
-    // Offset Days (días vacíos)
-    for (i=0; i<7; i++) {
-        const weekDay = i + weekDayStart < 7 ? i + weekDayStart : i - 7 + weekDayStart;
-        if (weekDay == calDate.getDay()) {
-            break;
-        }
-        const calendarDay = document.createElement('div');
-        calendar.appendChild(calendarDay);
-    }
-
-    // Días calendario
-    while (calDate.getMonth() == month) {
-        const calendarDay = document.createElement('div');
-        calendarDay.classList.add('day');
-        let innerHTML = '<div class="month-day">' + calDate.getDate() + '</div>';
+    // Render each month
+    for(let i=0; i<monthsToRender; i++) {
         
-        // Semana y dia de embarazo
-        const pregnancyWeek = Math.floor((calDate - pregnancyStart) / 24 / 60 / 60 / 7 / 1000);
-        const pregnancyRestDay = Math.floor((((calDate - pregnancyStart) / 24 / 60 / 60 / 7 / 1000) % 1) * 7);
-        if (pregnancyWeek > -1 && pregnancyWeek <= 42) {
-            innerHTML += '<div class="pregnant-week">';
-            innerHTML += '<strong>' + pregnancyWeek + '</strong>';
-            if (pregnancyRestDay > 0) {
-                innerHTML += '+' + pregnancyRestDay;
-            }
-            innerHTML += '</div>';
-        }
-        calendarDay.innerHTML = innerHTML;            
-        calendar.appendChild(calendarDay);        
-        // Marca fecha de hoy
-        if (
-            calDate.getDate() === today.getDate() && 
-            calDate.getMonth() === today.getMonth() && 
-            calDate.getFullYear() === today.getFullYear()
-        ) {
-            calendarDay.classList.add('today');
-        }
+        const calendarMonth = document.createElement('div');
+        calendarMonth.classList.add('calendar-month');
+        calWrapper.appendChild(calendarMonth);
         
-        // Marcar fecha de cumplir embarazo (40 sem)
-        if (pregnancyWeek == 40 && pregnancyRestDay == 0) {
-            calendarDay.classList.add('fulfill');
-        }
+        const c = new Calendar(currentDate.format(),calendarMonth, options);
+        c.render();
 
-        // Suma un día
-        calDate.setDate(calDate.getDate() + 1);
+        currentDate.add(1,'month');
     }
 }

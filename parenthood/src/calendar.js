@@ -6,19 +6,20 @@ import moment from "moment";
 export default class Calendar {
     static {
         moment.locale('es');
+        moment.defaultFormat = 'DD/MM/YYYY';
     }
 
     constructor(date, wrapper, options = {}) {
-        this.d = moment(date);
         
-        this.calendarWrapper = wrapper;
-        
+        this.d = moment(date, moment.defaultFormat);
+        this.d.startOf('month');
+
         // options
         this.weekDayStart = options.weekDayStart || 1;
         this.d.defaultFormat = options.defaultFormat || "DD/MM/YYYY";
         this.d.locale = options.locale || "es";
 
-        console.log(this.d.format())
+        this.renderWrapper = wrapper;
     }
 
     hoy() {
@@ -36,7 +37,11 @@ export default class Calendar {
         const month = c.month();
 
         // Título del calendario
-        const title = c.month() + ' ' + c.year();
+        const title = c.format('MMMM YYYY');
+        const calendarTitle = document.createElement('div');
+        calendarTitle.classList.add('month-name');
+        calendarTitle.innerHTML = title;
+        this.renderWrapper.appendChild(calendarTitle);
 
         // Días de la semana
         for (let i = 0; i < 7; i++) {
@@ -44,18 +49,13 @@ export default class Calendar {
             const calendarDay = document.createElement('div');
             calendarDay.classList.add('day-name');
             calendarDay.innerHTML = dayName;
-            this.calendarWrapper.appendChild(calendarDay);
-            console.log(calendarDay);
+            this.renderWrapper.appendChild(calendarDay);
         }
 
         // Offset Days (días vacíos)
-        for (let i = 0; i < 7; i++) {
-            const weekDay = i + this.weekDayStart < 7 ? i + this.weekDayStart : i - 7 + this.weekDayStart;
-            if (weekDay == this.d.date()) {
-                break;
-            }
+        for (let i = 1; i < c.isoWeekday(); i++) {
             const calendarDay = document.createElement('div');
-            this.calendarWrapper.appendChild(calendarDay);
+            this.renderWrapper.appendChild(calendarDay);
             console.log(calendarDay);
         }
 
@@ -67,7 +67,7 @@ export default class Calendar {
 
             
             calendarDay.innerHTML = innerHTML;
-            this.calendarWrapper.appendChild(calendarDay);
+            this.renderWrapper.appendChild(calendarDay);
             // Marca fecha de hoy
             if (
                 c == moment().startOf('day')
