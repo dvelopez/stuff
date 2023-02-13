@@ -1,12 +1,24 @@
 import moment from "moment";
+import Calendar from "./calendar";
 
 import './styles.scss';
+
+
 
 // Moment configuration
 moment().locale('es');
 moment.defaultFormat = "DD/MM/YYYY";
 
 window.moment = moment;
+let options = {
+    locale: 'en',
+    weekDayStart: 1,
+    defaultFormat: "MM/YYYY"
+}
+const calWrapper = document.getElementsByClassName('calendar-view')[0];
+const c = new Calendar('2023-02-01',calWrapper, options);
+
+c.render();
 
 // Fecha nacimiento por defecto
 let bornDate = moment('16/03/2023', moment.defaultFormat);
