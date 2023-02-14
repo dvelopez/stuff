@@ -10,26 +10,14 @@ export default class Calendar {
     }
 
     constructor(date, wrapper, options = {}) {
-        
         this.d = moment(date, moment.defaultFormat);
         this.d.startOf('month');
 
         // options
         this.weekDayStart = options.weekDayStart || 1;
-        this.d.defaultFormat = options.defaultFormat || "DD/MM/YYYY";
-        this.d.locale = options.locale || "es";
+        this.data = options.data || {};
 
         this.renderWrapper = wrapper;
-    }
-
-    hoy() {
-        return this.d().format('LLLL');
-    }
-
-    setMonth(month, year) {
-        this.d().date(1);
-        this.d().month(month);
-        this.d().year(year);
     }
 
     render() {
@@ -53,10 +41,13 @@ export default class Calendar {
         }
 
         // Offset Days (días vacíos)
-        for (let i = 1; i < c.isoWeekday(); i++) {
+        for (let i = 0; i < 7; i++) {
+            const weekDay = i + this.weekDayStart < 7 ? i + this.weekDayStart : i - 7 + this.weekDayStart;
+            if (weekDay === c.isoWeekday()) {
+                break;
+            }
             const calendarDay = document.createElement('div');
             this.renderWrapper.appendChild(calendarDay);
-            console.log(calendarDay);
         }
 
         // Días calendario
@@ -65,18 +56,23 @@ export default class Calendar {
             calendarDay.classList.add('day');
             let innerHTML = '<div class="month-day">' + c.date() + '</div>';
 
+            // Marcar evento
+            this.data.forEach(item => {
+                if(c.isBetween(moment(item.dateFrom,moment.defaultFormat),moment(item.dateTo,moment.defaultFormat),'day','[]')) {
+                    calendarDay.style.backgroundColor = item.color;
+                }
+            });
             
-            calendarDay.innerHTML = innerHTML;
-            this.renderWrapper.appendChild(calendarDay);
             // Marca fecha de hoy
-            if (
-                c == moment().startOf('day')
-            ) {
+            if (c.format() === moment().format()) {
                 calendarDay.classList.add('today');
             }
 
+            calendarDay.innerHTML = innerHTML;
+            this.renderWrapper.appendChild(calendarDay);
+
             // Suma un día
-            c = c.add(1,'day');
+            c.add(1,'day');
         }
     }
 }

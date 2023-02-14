@@ -11,11 +11,6 @@ moment().locale('es');
 moment.defaultFormat = "DD/MM/YYYY";
 
 window.moment = moment;
-let options = {
-    locale: 'en',
-    weekDayStart: 1,
-    defaultFormat: "MM/YYYY"
-}
 
 // Fecha nacimiento por defecto
 let bornDate = moment('16/03/2023', moment.defaultFormat);
@@ -79,13 +74,20 @@ const renderPlanningDates = (pPlanningDates) => {
     const planningList = document.createElement('ul');
     pPlanningDates.forEach((item) => {
         const planningListItem = document.createElement('li');
-        planningListItem.innerHTML = 'Del ' + item.dateFrom + ' al ' + item.dateTo + '<br> <strong>' + item.title + '</strong>';
+        const dateFrom = moment(item.dateFrom, moment.defaultFormat).format('D [de] MMMM');
+        const dateTo = moment(item.dateTo, moment.defaultFormat).format('D [de] MMMM');
+        planningListItem.innerHTML = 'Del ' + dateFrom + ' al ' + dateTo + '<br> <strong>' + item.title + '</strong>';
+        planningListItem.style.backgroundColor = item.color;
         planningList.appendChild(planningListItem);
     });
     planningResume.append(planningList);
 }
 
 const renderCalendar = (pPlanningDates = {}) => {
+    const options = {    
+        weekDayStart: 1,
+        data: pPlanningDates,
+    }
     const calWrapper = document.getElementsByClassName('calendar-view')[0];
     calWrapper.innerHTML = '';
     // Get first, last date and set currentDate operator

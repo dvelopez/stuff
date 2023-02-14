@@ -5,7 +5,7 @@ export const planningData = [
         title: "Semanas obligatorias Diego y Candela",
         subject: ["Candela", "Diego"],
         time: "6 weeks",
-        color: '#fa0',
+        color: '#ffaa00',
     },
     
     {
@@ -13,7 +13,7 @@ export const planningData = [
         title: "Permiso maternidad Candela",
         subject: ["Candela"],
         time: "10 weeks",
-        color: '#dc0',
+        color: '#ddcc00',
     },
     
     {
@@ -21,7 +21,7 @@ export const planningData = [
         title: "Periodo lactancia Candela",
         subject: ["Candela"],
         time: "2 weeks",
-        color: '#3d2',
+        color: '#33dd22',
     },
     
     {
@@ -29,7 +29,7 @@ export const planningData = [
         title: "Periodo paternidad Diego",
         subject: ["Diego"],
         time: "10 weeks",
-        color: '#11b',
+        color: '#1111bb',
     },
     
     {
@@ -37,7 +37,7 @@ export const planningData = [
         title: "Permiso lactancia Diego",
         subject: ["Diego"],
         time: "2 weeks",
-        color: '#27f',
+        color: '#2277ff',
     },
     
     {
@@ -45,7 +45,7 @@ export const planningData = [
         title: "Periodo vacaciones Candela",
         subject: ["Candela"],
         time: "2 weeks",
-        color: '#03f',
+        color: '#0033ff',
     },
 
     {
@@ -53,7 +53,7 @@ export const planningData = [
         title: "Periodo vacaciones Diego",
         subject: ["Diego"],
         time: "2 weeks",
-        color: '#03f',
+        color: '#2255bb',
     },
 
     {
@@ -61,7 +61,7 @@ export const planningData = [
         title: "Periodo vacaciones Candela",
         subject: ["Candela"],
         time: "2 weeks",
-        color: '#03f',
+        color: '#0077dd',
     },
 
     {
@@ -69,6 +69,6 @@ export const planningData = [
         title: "Periodo vacaciones Diego",
         subject: ["Diego"],
         time: "2 weeks",
-        color: '#03f',
+        color: '#3333ee',
     },
 ];

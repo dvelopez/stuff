@@ -11,23 +11,28 @@ body {
 
 .init-form {
     padding: 1rem;
-    border: 2px #e5e5e5 solid;
-    border-radius: 1rem;
     background-color: #fff;
-    box-shadow: 0 0 10px #ddd;
+    box-shadow: 0 0 0.8rem rgba(0,0,0,0.1);
 }
 
 // Resumen de las fechas de baja
 #planning-resume {
+    padding-top: 1rem;
     ul {
-        padding: 10px;
-        margin-left: 20px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 5px;
     }
     li {
-        list-style-type: disc;
-        padding: 5px;
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        padding: 1rem;
+        justify-content: center;
+        background-color: #1166cc;
+        font-size: 0.86rem;
         strong {
-            font-size: 1.2rem;
+            font-size: 1rem;
         }
     }
 }
@@ -36,14 +41,16 @@ body {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 30px;
+    padding: 1rem 0;
 }
 
 .calendar-month {
+    padding: 1.5rem;
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    //grid-template-rows: repeat(6, 1fr);
-    gap: 4px;
+    gap: 1px;
     border: 1px #eee solid;
+    box-shadow: 0 0 0.8rem rgba(0,0,0,0.1);
 }
 
 .buttons {
@@ -107,8 +114,7 @@ input {
     align-items: center;
     row-gap: 10px;
     justify-content: center;
-    border-radius: 3px;
-    height: 80px;
+    padding: 1rem 0;
 }
 .month-day {
     width: 24px;
