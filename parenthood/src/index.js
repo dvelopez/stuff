@@ -1,5 +1,6 @@
 import moment from "moment";
 import Calendar from "./calendar";
+import { countryHolidays } from "./data";
 import { planningData } from "./planningData";
 
 import './styles.scss';
@@ -86,7 +87,10 @@ const renderPlanningDates = (pPlanningDates) => {
 const renderCalendar = (pPlanningDates = {}) => {
     const options = {    
         weekDayStart: 1,
-        data: pPlanningDates,
+        data: {
+            plan: pPlanningDates,
+            holidays: countryHolidays,
+        }
     }
     const calWrapper = document.getElementsByClassName('calendar-view')[0];
     calWrapper.innerHTML = '';

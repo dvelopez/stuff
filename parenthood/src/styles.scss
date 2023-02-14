@@ -136,6 +136,17 @@ input {
     font-size: 0.8rem;
     vertical-align: middle;
 }
+.holiday {
+    border-radius: 8px;
+}
+.holiday .month-day{
+    color: red;
+    font-weight: bold;
+}
+.weekend .month-day{
+    color: red;
+    font-weight: lighter;
+}
 .today {
     background: rgba(36, 253, 233, 0.69);
 }

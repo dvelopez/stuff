@@ -56,12 +56,30 @@ export default class Calendar {
             calendarDay.classList.add('day');
             let innerHTML = '<div class="month-day">' + c.date() + '</div>';
 
+            // Marcar findes
+            if([6,7].includes(c.isoWeekday())) {
+                calendarDay.classList.add('weekend');
+            }
+
+            // Marcar festivos
+            if(this.data.holidays) {
+                this.data.holidays.forEach(item => {
+                    console.log(item.date, c.format());
+                    if(c.format() === item.date) {
+                        calendarDay.classList.add('holiday');
+                        calendarDay.setAttribute('title',item.description);
+                    }
+                });
+            }
+
             // Marcar evento
-            this.data.forEach(item => {
-                if(c.isBetween(moment(item.dateFrom,moment.defaultFormat),moment(item.dateTo,moment.defaultFormat),'day','[]')) {
-                    calendarDay.style.backgroundColor = item.color;
-                }
-            });
+            if(this.data.plan) {
+                this.data.plan.forEach(item => {
+                    if(c.isBetween(moment(item.dateFrom,moment.defaultFormat),moment(item.dateTo,moment.defaultFormat),'day','[]')) {
+                        calendarDay.style.backgroundColor = item.color;
+                    }
+                });
+            }
             
             // Marca fecha de hoy
             if (c.format() === moment().format()) {
