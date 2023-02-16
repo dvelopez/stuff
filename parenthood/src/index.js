@@ -66,6 +66,12 @@ document.addEventListener('DOMContentLoaded', () => {
         renderPlanningDates(planningDates);
         renderCalendar(planningDates);
     });
+
+    // Initial
+    setBornDate(bornDateInput.value);
+    planningDates = composeDatesFromPlanning(bornDate, planningData);
+    renderPlanningDates(planningDates);
+    renderCalendar(planningDates);
     
 });
 

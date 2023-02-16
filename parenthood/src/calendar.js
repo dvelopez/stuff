@@ -42,7 +42,10 @@ export default class Calendar {
 
         // Offset Days (días vacíos)
         for (let i = 0; i < 7; i++) {
-            const weekDay = i + this.weekDayStart < 7 ? i + this.weekDayStart : i - 7 + this.weekDayStart;
+            const weekDay = this.weekDayStart < 7 ? i + this.weekDayStart : i - 7 + this.weekDayStart;
+            if(c.month() == 9) {
+                console.log(c.isoWeekday(), c.format(), weekDay);
+            }
             if (weekDay === c.isoWeekday()) {
                 break;
             }
@@ -52,6 +55,7 @@ export default class Calendar {
 
         // Días calendario
         while (c.month() == month) {
+            let title = '';
             const calendarDay = document.createElement('div');
             calendarDay.classList.add('day');
             let innerHTML = '<div class="month-day">' + c.date() + '</div>';
@@ -64,10 +68,9 @@ export default class Calendar {
             // Marcar festivos
             if(this.data.holidays) {
                 this.data.holidays.forEach(item => {
-                    console.log(item.date, c.format());
                     if(c.format() === item.date) {
                         calendarDay.classList.add('holiday');
-                        calendarDay.setAttribute('title',item.description);
+                        title += item.description;
                     }
                 });
             }
@@ -77,6 +80,7 @@ export default class Calendar {
                 this.data.plan.forEach(item => {
                     if(c.isBetween(moment(item.dateFrom,moment.defaultFormat),moment(item.dateTo,moment.defaultFormat),'day','[]')) {
                         calendarDay.style.backgroundColor = item.color;
+                        title += title.length ? ' - ' + item.title : item.title;
                     }
                 });
             }
@@ -84,6 +88,11 @@ export default class Calendar {
             // Marca fecha de hoy
             if (c.format() === moment().format()) {
                 calendarDay.classList.add('today');
+            }
+
+            // Set title
+            if (title.length) {
+                calendarDay.setAttribute('title',title);
             }
 
             calendarDay.innerHTML = innerHTML;

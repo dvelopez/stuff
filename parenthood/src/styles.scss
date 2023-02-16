@@ -7,6 +7,7 @@ html {
 body {
     padding: 1rem;
     font-family: Arial, Helvetica, sans-serif;
+    background-color: #d0dfdf;
 }
 
 .init-form {
@@ -20,7 +21,7 @@ body {
     padding-top: 1rem;
     ul {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(1, 1fr);
         gap: 5px;
     }
     li {
@@ -39,9 +40,36 @@ body {
 
 .calendar-view { 
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(1, 1fr);
     gap: 30px;
     padding: 1rem 0;
+}
+
+@media (min-width: 540px) {
+    .calendar-view { 
+        grid-template-columns: repeat(2, 1fr);
+    }
+    #planning-resume ul {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 960px) {
+    .calendar-view { 
+        grid-template-columns: repeat(3, 1fr);
+    }
+    #planning-resume ul {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 1280px) {
+    .calendar-view { 
+        grid-template-columns: repeat(4, 1fr);
+    }
+    #planning-resume ul {
+        grid-template-columns: repeat(4, 1fr);
+    }
 }
 
 .calendar-month {
@@ -50,8 +78,16 @@ body {
     grid-template-columns: repeat(7, 1fr);
     gap: 1px;
     border: 1px #eee solid;
+    background-color: #fff;
     box-shadow: 0 0 0.8rem rgba(0,0,0,0.1);
+    transition: all .5s ease-in-out;
+    &:hover {
+        transform: scale(1.05);
+        box-shadow: 0 .8rem 1.6rem rgba(0,0,0,0.3);
+        z-index: 999;
+    }
 }
+
 
 .buttons {
     display: flex;
