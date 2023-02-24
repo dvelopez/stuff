@@ -5,15 +5,55 @@ html {
 }
 
 body {
+    font-size: 1rem;
     padding: 1rem;
     font-family: Arial, Helvetica, sans-serif;
     background-color: #d0dfdf;
+}
+h1 {
+    font-size: 2em;
+}
+input,button {
+    border-radius: .3em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: .3em;
+}
+button {
+    border: 0;
+    background: rgb(36, 148, 253);
+    color: #fff;
+    font-size: 1em;
+    padding: .3em .6em;
+}
+input {
+    border: 1px #ddd solid;
+    color: #000;
+    font-size: 1em;
+}
+.input-group {
+    display: flex;
+    *:first-child {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+    *:last-child {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
 }
 
 .init-form {
     padding: 1rem;
     background-color: #fff;
     box-shadow: 0 0 0.8rem rgba(0,0,0,0.1);
+    font-size: 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2em;
+
 }
 
 // Resumen de las fechas de baja
@@ -89,44 +129,8 @@ body {
 }
 
 
-.buttons {
-    display: flex;
-    justify-content: center;
-    margin: 20px 0;
-}
-button {
-    border-radius: 3px;
-    border: 0;
-    background: rgb(36, 148, 253);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
-    font-size: 1rem;
-}
-input {
-    border-radius: 3px;
-    border: 1px #ddd solid;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #000;
-    font-size: 1rem;
-}
-.input-group {
-    display: flex;
-    button, input {
-        border-radius: 0;
-    }
-    *:first-child {
-        border-top-left-radius: 3px;
-        border-bottom-left-radius: 3px;
-    }
-    *:last-child {
-        border-top-right-radius: 3px;
-        border-bottom-right-radius: 3px;
-    }
-}
+
+
 .month-name {
     grid-area: 1 / 1 / 2 / 8;
     line-height: 5rem;
@@ -151,6 +155,12 @@ input {
     row-gap: 10px;
     justify-content: center;
     padding: 1rem 0;
+    transition: all .2s ease-in-out;
+    &:hover {
+        transform: scale(1.15);
+        box-shadow: 0 .4rem .8rem rgba(0,0,0,0.3);
+        z-index: 999;
+    }
 }
 .month-day {
     width: 24px;
@@ -183,8 +193,10 @@ input {
     color: red;
     font-weight: lighter;
 }
-.today {
-    background: rgba(36, 253, 233, 0.69);
+.today .month-day{
+    background-color: #1166cc;
+    color: #fff;
+    font-weight: bold;
 }
 .fulfill {
     background: rgba(253, 195, 36, 0.753);

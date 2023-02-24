@@ -43,9 +43,7 @@ export default class Calendar {
         // Offset Days (días vacíos)
         for (let i = 0; i < 7; i++) {
             const weekDay = this.weekDayStart < 7 ? i + this.weekDayStart : i - 7 + this.weekDayStart;
-            if(c.month() == 9) {
-                console.log(c.isoWeekday(), c.format(), weekDay);
-            }
+            
             if (weekDay === c.isoWeekday()) {
                 break;
             }
@@ -78,7 +76,8 @@ export default class Calendar {
             // Marcar evento
             if(this.data.plan) {
                 this.data.plan.forEach(item => {
-                    if(c.isBetween(moment(item.dateFrom,moment.defaultFormat),moment(item.dateTo,moment.defaultFormat),'day','[]')) {
+                    if(c.format() == moment(item.date, moment.defaultFormat).format()) {
+                    //if(c.isBetween(moment(item.dateFrom,moment.defaultFormat),moment(item.dateTo,moment.defaultFormat),'day','[]')) {
                         calendarDay.style.backgroundColor = item.color;
                         title += title.length ? ' - ' + item.title : item.title;
                     }
