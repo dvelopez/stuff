@@ -1,5 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const TerserPlugin = require('terser-webpack-plugin');
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 const Webpack = require("webpack");
 
@@ -45,6 +46,11 @@ module.exports = {
         new MomentLocalesPlugin({
             localesToKeep: ['es', 'ca', 'en'],
         }),
-        new Webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /es|ca|en/),
-    ]
+        //new Webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /es|ca|en/),
+        new Webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /es/),
+    ],
+    optimization: {
+        minimize: true,
+        minimizer: [new TerserPlugin()],
+    }
 }
