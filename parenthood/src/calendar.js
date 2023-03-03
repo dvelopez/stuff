@@ -77,7 +77,6 @@ export default class Calendar {
             if(this.data.plan) {
                 this.data.plan.forEach(item => {
                     if(c.format() == moment(item.date, moment.defaultFormat).format()) {
-                    //if(c.isBetween(moment(item.dateFrom,moment.defaultFormat),moment(item.dateTo,moment.defaultFormat),'day','[]')) {
                         calendarDay.style.backgroundColor = item.color;
                         title += title.length ? ' - ' + item.title : item.title;
                     }
