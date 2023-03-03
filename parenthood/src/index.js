@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         setBornDate(bornDateInput.value);
         planningDates = composeDatesFromPlanning(bornDate, planningData, countryHolidays);
-        //renderPlanningDates(planningDates);
+        renderPlanningDates(planningDates);
         renderCalendar(planningDates);
     });
 
