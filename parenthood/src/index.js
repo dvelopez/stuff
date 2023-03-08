@@ -106,15 +106,21 @@ const renderPlanningDates = (pPlanningDates) => {
     planningResume.innerHTML = ''; // Clear list
     const planningList = document.createElement('ul');
     let color, title, dateFrom, dateTo, lastDate;
+    
     pPlanningDates.forEach((item, index) => {
         if (index == 0) {
             color = item.color;
             title = item.title;
             dateFrom = moment(item.date, moment.defaultFormat).format('D [de] MMMM');
             lastDate = dateFrom;
-        } else if ((color !== item.color)  && (title !== item.title) || (index == pPlanningDates.length - 1)) {
-            const planningListItem = document.createElement('li');
+        } else if ((color !== item.color)  || (title !== item.title) || (index == pPlanningDates.length - 1)) {
+            
+            if (index == pPlanningDates.length - 1) {
+                lastDate = item.date;
+            }
             const dateTo = moment(lastDate, moment.defaultFormat).format('D [de] MMMM');
+            
+            const planningListItem = document.createElement('li');
             planningListItem.innerHTML = 'Del ' + dateFrom + ' al ' + dateTo + '<br> <strong>' + title + '</strong>';
             planningListItem.style.backgroundColor = color;
             planningList.appendChild(planningListItem);
@@ -144,7 +150,7 @@ const renderCalendar = (pPlanningDates = {}) => {
     const currentDate = firstDate.startOf('month');
     
     // Calculate months to show
-    const monthsToRender = Math.ceil(lastDate.diff(firstDate, 'months',true));
+    const monthsToRender = Math.ceil(moment(lastDate.endOf('month')).diff(firstDate, 'months',true));
 
     // Render each month
     for(let i=0; i<monthsToRender; i++) {
