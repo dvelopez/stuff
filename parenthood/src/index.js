@@ -13,7 +13,7 @@ moment.defaultFormat = "DD/MM/YYYY";
 window.moment = moment;
 
 // Fecha nacimiento por defecto
-let bornDate = moment('16/03/2023', moment.defaultFormat);
+let bornDate = moment('10/03/2023', moment.defaultFormat);
 
 // Referenciar inputs
 const bornDateInput = document.querySelectorAll('#borndate input')[0];
