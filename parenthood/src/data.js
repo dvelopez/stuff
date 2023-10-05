@@ -67,38 +67,5 @@ export const planningData = [
         subject: ["Diego"],
         time: "14 days",
         color: '#8bdeb8',
-    },
-    
-    
-    {
-        id: 7,
-        title: "Periodo vacaciones Candela",
-        subject: ["Candela"],
-        time: "9 days",
-        color: '#E99489',
-    },
-
-    {
-        id: 8,
-        title: "Periodo vacaciones Diego",
-        subject: ["Diego"],
-        time: "10 days",
-        color: '#17BEBB',
-    },
-
-    {
-        id: 9,
-        title: "Periodo vacaciones Candela",
-        subject: ["Candela"],
-        time: "10 days",
-        color: '#E99489',
-    },
-
-    {
-        id: 10,
-        title: "Periodo vacaciones Diego",
-        subject: ["Diego"],
-        time: "8 days",
-        color: '#17BEBB',
-    },
+    }
 ];
