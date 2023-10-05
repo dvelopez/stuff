@@ -44,26 +44,42 @@ export const planningData = [
         time: "15 days",
         color: '#E9B289',
     },
-    
+
     {
         id: 4,
+        title: "Día vacaciones Candela",
+        subject: ["Candela"],
+        time: "1 days",
+        color: '#F4C84C',
+    },
+    
+    {
+        id: 5,
         title: "Periodo paternidad Diego",
         subject: ["Diego"],
         time: "10 weeks",
         color: '#17BEBB',
     },
+
+    {
+        id: 6,
+        title: "Periodo lactancia Diego",
+        subject: ["Diego"],
+        time: "14 days",
+        color: '#8bdeb8',
+    },
     
     
     {
-        id: 6,
+        id: 7,
         title: "Periodo vacaciones Candela",
         subject: ["Candela"],
-        time: "10 days",
+        time: "9 days",
         color: '#E99489',
     },
 
     {
-        id: 7,
+        id: 8,
         title: "Periodo vacaciones Diego",
         subject: ["Diego"],
         time: "10 days",
@@ -71,7 +87,7 @@ export const planningData = [
     },
 
     {
-        id: 8,
+        id: 9,
         title: "Periodo vacaciones Candela",
         subject: ["Candela"],
         time: "10 days",
@@ -79,10 +95,10 @@ export const planningData = [
     },
 
     {
-        id: 9,
+        id: 10,
         title: "Periodo vacaciones Diego",
         subject: ["Diego"],
-        time: "10 days",
+        time: "8 days",
         color: '#17BEBB',
     },
 ];
