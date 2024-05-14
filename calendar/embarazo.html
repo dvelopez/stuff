@@ -19,6 +19,7 @@
             color: #fff;
             background-color: #ffffff55;
             padding: 10px;
+            border-radius: 4px;
         }
         h1 {
             font-size: 1rem;
@@ -74,7 +75,7 @@
             font-size: 0.8rem;
         }
         .day {
-            background: rgba(255,255,255,0.5);
+            background: rgba(255,255,255,0.8);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -82,6 +83,12 @@
             justify-content: center;
             border-radius: 3px;
             height: 80px;
+            transition: all 0.3s ease-in-out;
+        }
+        .day.zoom {
+            background: #fff;
+            box-shadow: 0 0 5px 5px rgba(0,0,0,0.3);
+            transform: scale(1.4);
         }
         .month-day {
             width: 24px;
@@ -117,9 +124,9 @@
         <select name="profile" id="select-profile"></select>
     </div>
     <div class="buttons">
-        <button id="prev">&larr;</button>
+        <button id="prev">&ltrif;</button>
         <span id="month"></span>
-        <button id="next">&rarr;</button>
+        <button id="next">&rtrif;</button>
     </div>
     <div id="calendar"></div>
 </body>
@@ -144,18 +151,14 @@
         {
             id: "1",
             name: "Candela",
-            pregnancyStart: "Thu Jun 09 2022 00:00:00 GMT+0100"
+            pregnancyStart: "02/12/2024"
         },
         {
             id: "2",
-            name: "Laura",
-            pregnancyStart: "Thu Jul 24 2022 00:00:00 GMT+0100"
+            name: "Cristina",
+            pregnancyStart: "11/01/2023"
         },
-        {
-            id: "3",
-            name: "Reyes",
-            pregnancyStart: "Fri Sep 9 2022 00:00:00 GMT+0100"
-        }
+        
     ];
 
     const loadProfileSelector = () => {
@@ -173,6 +176,7 @@
         profileName.innerText = profile.name;
         pregnancyStart = new Date(profile.pregnancyStart);
         renderMonth(currentMonth.getFullYear(), currentMonth.getMonth());
+        document.getElementsByTagName('html')[0].style.background = "url('https://picsum.photos/600/1200?blur=8&random='" + Math.random() +") no-repeat";
     }
     
     const prevMonth = () => {
@@ -232,8 +236,8 @@
                 }
                 innerHTML += '</div>';
             }
-            calendarDay.innerHTML = innerHTML;            
-            calendar.appendChild(calendarDay);        
+            calendarDay.innerHTML = innerHTML;
+            calendar.appendChild(calendarDay);
             // Marca fecha de hoy
             if (
                 calDate.getDate() === today.getDate() && 
@@ -251,7 +255,32 @@
             // Suma un día
             calDate.setDate(calDate.getDate() + 1);
         }
+        zoomOnClick();
     }
+
+    const zoomOnClick = () => {
+        [...document.querySelectorAll('#calendar .day')].forEach(day => {
+            day.addEventListener('click',(e) => {
+                console.log(e.target);
+                el = e.target;
+                if (day !== e.target) {
+                    el = e.target.closest('.day');
+                }
+                if (el.classList.contains('zoom')) {
+                    el.classList.remove('zoom');
+                } else {
+                    resetZoom();
+                    el.classList.add('zoom');
+                }
+            });
+            
+        });
+    }
+    const resetZoom = () => {
+        [...document.querySelectorAll('#calendar .zoom')].forEach(day => {
+            day.classList.remove('zoom');
+        });
+    };
 
     //Events
     prevButton.addEventListener('click', prevMonth);
@@ -259,7 +288,7 @@
     profileSelector.addEventListener("change", () => {
         loadProfile(profileSelector.value);
     });
-    document.addEventListener('DOMContentLoaded', () => { 
+    document.addEventListener('DOMContentLoaded', () => {
         loadProfileSelector();
         loadProfile();
     });
